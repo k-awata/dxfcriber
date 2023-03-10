@@ -15,8 +15,7 @@ class Program
 
         var inputFileArgument = new Argument<string[]?>(
             name: "input_file",
-            description: "input DXF files",
-            isDefault: true,
+            description: "Input DXF files",
             parse: result =>
             {
                 var dir = new DirectoryInfoWrapper(new DirectoryInfo("."));
@@ -32,6 +31,7 @@ class Program
                 }
                 return globbed.ToArray();
             });
+        inputFileArgument.Arity = ArgumentArity.OneOrMore;
 
         var columnsOption = new Option<Column[]>(
             aliases: new[] { "--column", "-c" },
@@ -103,7 +103,7 @@ class Program
 
         rootCommand.SetHandler((files, columns, round, filter) =>
         {
-            Console.WriteLine(ExtractText(files!, columns, round, filter));
+            Console.Write(ExtractText(files!, columns, round, filter));
         }, inputFileArgument, columnsOption, roundOption, new FilterBinder(xMinOption, xMaxOption, yMinOption, yMaxOption, colorOption, layerOption));
 
         return await rootCommand.InvokeAsync(args);
@@ -170,7 +170,7 @@ class Program
             rows.Add(row.ToArray());
         }
 
-        var outc = new string[] { "filename", "y" };
+        var outc = new string[] { "file", "y" };
         return CsvWriter.WriteToText(outc.Concat(columns.Select(c => c.Name)).ToArray(), rows, ',');
     }
 

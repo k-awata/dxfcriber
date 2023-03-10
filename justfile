@@ -10,3 +10,7 @@ release ver msg:
     git tag -a v{{ver}} -m "{{msg}}"
     git push origin v{{ver}}
     gh release create -n "{{msg}}" v{{ver}} dxfcriber_{{ver}}_win-x64.zip
+
+# Test
+test:
+    dotnet run -- temp/*.dxf -r 1 --ymin 100 --ymax 275 --color 6 -c no,285,294 -c desc,295,364 -c qty,365,405 > temp/output.csv
