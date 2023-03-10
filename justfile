@@ -9,4 +9,4 @@ release ver msg:
     7z a dxfcriber_{{ver}}_win-x64.zip dxfcriber.exe LICENSE README.md
     git tag -a v{{ver}} -m "{{msg}}"
     git push origin v{{ver}}
-    gh release create v{{ver}} dxfcriber_{{ver}}_win-x64.zip
+    gh release create -n "{{msg}}" v{{ver}} dxfcriber_{{ver}}_win-x64.zip
